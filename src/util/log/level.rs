@@ -3,17 +3,17 @@ use std::convert::TryFrom;
 use ffi::*;
 use libc::c_int;
 
-#[derive(Eq, PartialEq, Clone, Copy, Debug)]
+#[derive(PartialOrd, Ord, Eq, PartialEq, Clone, Copy, Debug)]
 pub enum Level {
     Quiet,
-    Panic,
-    Fatal,
-    Error,
-    Warning,
-    Info,
-    Verbose,
-    Debug,
     Trace,
+    Debug,
+    Verbose,
+    Info,
+    Warning,
+    Error,
+    Fatal,
+    Panic,
 }
 
 pub struct LevelError;
