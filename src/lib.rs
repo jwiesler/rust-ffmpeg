@@ -5,6 +5,10 @@
 
 #[macro_use]
 extern crate bitflags;
+
+#[macro_use]
+extern crate lazy_static;
+
 pub extern crate ffmpeg_sys_next as sys;
 #[cfg(feature = "image")]
 extern crate image;

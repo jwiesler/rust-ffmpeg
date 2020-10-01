@@ -1,8 +1,14 @@
 pub mod level;
+
 pub use self::level::Level;
 
 pub mod flag;
+
 pub use self::flag::Flags;
+
+pub mod callback;
+
+pub use self::callback::{RawCallback, set_callback, CallbackOwner, LogCallback, Context};
 
 use ffi::*;
 use std::convert::TryInto;
@@ -21,4 +27,14 @@ pub fn set_flags(value: Flags) {
 
 pub fn get_flags() -> Flags {
     unsafe { Flags::from_bits_truncate(av_log_get_flags()) }
+}
+
+pub fn set_raw_callback(callback: RawCallback) {
+    unsafe {
+        sys::av_log_set_callback(Some(callback));
+    };
+}
+
+pub fn set_default_callback() {
+    set_raw_callback(sys::av_log_default_callback)
 }
