@@ -3,11 +3,16 @@ use std::convert::{TryFrom};
 use std::str::from_utf8_unchecked;
 use std::ffi::CStr;
 use std::sync::{Arc, RwLock};
-use sys::va_list;
 use super::{set_raw_callback, set_default_callback};
 
 pub type Context = *mut libc::c_void;
-pub type Args = va_list;
+
+#[cfg(all(target_arch = "x86_64", target_family = "windows"))]
+pub type Args = sys::va_list;
+
+#[cfg(all(target_arch = "x86_64", target_family = "unix"))]
+pub type Args = *mut sys::__va_list_tag;
+
 pub type c_int = libc::c_int;
 pub type c_char = libc::c_char;
 pub type RawCallback = unsafe extern "C" fn(context: Context, level: c_int, fmt: *const c_char, args: Args);
