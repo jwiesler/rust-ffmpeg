@@ -103,7 +103,7 @@ software-scaling    = ["ffmpeg-sys-next/swscale", "codec"]
 rpi = []
 
 [dependencies]
-libc     = "0.2"
+libc     = "0.2.88"
 bitflags = "1.2"
 
 [dependencies.image]
@@ -112,4 +112,5 @@ optional = true
 
 [dependencies.ffmpeg-sys-next]
 version = "4.3.5"
+git = "https://github.com/jwiesler/rust-ffmpeg-sys"
 default-features = false
