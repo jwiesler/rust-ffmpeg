@@ -74,7 +74,7 @@ pub unsafe extern "C" fn default_callback(_context: Context, level: c_int, fmt: 
     if let Some(log_level) = level_filter.to_level() {
         if log::log_enabled!(log_level) {
             let log = vsprintf::vsprintf(fmt, args).expect("failed to format ffmpeg log message");
-            log::log!(log_level, "{}", log.trim());
+            log::log!(target: "ffmpeg", log_level, "{}", log.trim());
         }
     }
 }
