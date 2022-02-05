@@ -111,6 +111,8 @@ libc     = "0.2.88"
 bitflags = "2.5"
 log      = "0.4"
 vsprintf = "2.0"
+log      = "0.4"
+vsprintf = "2.0"
 
 [dependencies.image]
 version  = "0.25"

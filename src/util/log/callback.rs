@@ -96,7 +96,7 @@ pub struct LoggingCallback;
 
 impl Callback for LoggingCallback {
     fn call(context: &LogContext) {
-        if let Some(log_level) = Into::<LevelFilter>::into(context.level()).to_level() {
+        if let Some(log_level) = LevelFilter::from(context.level()).to_level() {
             // Don't format when level is disabled
             if log::log_enabled!(log_level) {
                 match context.to_message() {
