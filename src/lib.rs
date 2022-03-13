@@ -54,7 +54,7 @@ pub use codec::discard::Discard;
 pub use codec::field_order::FieldOrder;
 #[cfg(feature = "codec")]
 pub use codec::packet::{self, Packet};
-#[cfg(feature = "codec")]
+#[cfg(all(feature = "codec", not(feature = "ffmpeg_5_0")))]
 pub use codec::picture::Picture;
 #[cfg(feature = "codec")]
 pub use codec::subtitle::{self, Subtitle};
@@ -77,7 +77,7 @@ fn init_error() {
     util::error::register_all();
 }
 
-#[cfg(feature = "format")]
+#[cfg(all(feature = "format", not(feature = "ffmpeg_5_0")))]
 fn init_format() {
     format::register_all();
 }
@@ -93,7 +93,7 @@ fn init_device() {
 #[cfg(not(feature = "device"))]
 fn init_device() {}
 
-#[cfg(feature = "filter")]
+#[cfg(all(feature = "filter", not(feature = "ffmpeg_5_0")))]
 fn init_filter() {
     filter::register_all();
 }
@@ -118,8 +118,10 @@ fn init_log() {}
 )]
 pub fn init() -> Result<(), Error> {
     init_error();
+    #[cfg(not(feature = "ffmpeg_5_0"))]
     init_format();
     init_device();
+    #[cfg(not(feature = "ffmpeg_5_0"))]
     init_filter();
     init_log();
 
