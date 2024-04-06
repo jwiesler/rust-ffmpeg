@@ -2,8 +2,7 @@ use std::convert::TryInto;
 use std::ffi::CStr;
 use std::io::Error;
 
-use libc::c_char;
-use libc::c_int;
+use libc::{c_char, c_int};
 use log_crate::LevelFilter;
 
 use util::log::Level;
