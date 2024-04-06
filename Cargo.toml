@@ -111,10 +111,6 @@ libc     = "0.2.88"
 bitflags = "2.5"
 log      = "0.4"
 vsprintf = "2.0"
-log      = "0.4"
-vsprintf = "2.0"
-log      = "0.4"
-vsprintf = "2.0"
 
 [dependencies.image]
 version  = "0.25"
@@ -122,5 +118,4 @@ optional = true
 
 [dependencies.ffmpeg-sys-next]
 version = "7.0.0"
-git = "https://github.com/jwiesler/rust-ffmpeg-sys"
 default-features = false
