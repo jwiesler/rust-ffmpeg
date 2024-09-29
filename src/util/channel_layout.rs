@@ -4,6 +4,8 @@ use ffi::*;
 #[derive(Copy, Clone)]
 pub struct ChannelLayout(pub AVChannelLayout);
 
+unsafe impl Send for ChannelLayout {}
+
 impl PartialEq for ChannelLayout {
     // TODO this can actually return an error if < 0
     fn eq(&self, other: &Self) -> bool {
