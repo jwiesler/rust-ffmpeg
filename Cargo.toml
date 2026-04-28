@@ -1,6 +1,6 @@
 [package]
 name    = "ffmpeg-next"
-version = "7.1.0"
+version = "8.1.0"
 build   = "build.rs"
 
 authors = ["meh. <meh@schizofreni.co>", "Zhiming Wang <i@zhimingwang.org>"]
@@ -108,8 +108,9 @@ software-scaling    = ["ffmpeg-sys-next/swscale", "codec"]
 rpi = []
 
 [dependencies]
-libc     = "0.2.88"
-bitflags = "2.6"
+libc     = "0.2"
+bitflags = "2.1"
+
 log      = "0.4"
 vsprintf = "2.0"
 
@@ -118,5 +119,5 @@ version  = "0.25"
 optional = true
 
 [dependencies.ffmpeg-sys-next]
-version = "7.1.0"
+version = "8.1.0"
 default-features = false
