@@ -5,7 +5,7 @@ use std::io::Error;
 use libc::{c_char, c_int};
 use log_crate::LevelFilter;
 
-use util::log::Level;
+use crate::util::log::Level;
 
 // This is ugly, but va_list is not stabilized
 
@@ -60,7 +60,12 @@ pub trait Callback {
     fn call(context: &LogContext);
 }
 
-unsafe extern "C" fn wrapped_callback<T: Callback>(context: *mut libc::c_void, level: c_int, fmt: *const c_char, args: Args) {
+unsafe extern "C" fn wrapped_callback<T: Callback>(
+    context: *mut libc::c_void,
+    level: c_int,
+    fmt: *const c_char,
+    args: Args,
+) {
     let context = LogContext {
         context: context as usize,
         level: level.try_into().unwrap_or(Level::Info),
@@ -101,8 +106,9 @@ impl Callback for LoggingCallback {
             if log::log_enabled!(log_level) {
                 match context.to_message() {
                     Ok(message) => log::log!(target: "ffmpeg", log_level, "{}", message.trim()),
-                    Err(e) =>
-                        log::warn!(target: "ffmpeg", "failed to format ffmpeg log message: {:?}", e),
+                    Err(e) => {
+                        log::warn!(target: "ffmpeg", "failed to format ffmpeg log message: {:?}", e)
+                    }
                 }
             }
         }
