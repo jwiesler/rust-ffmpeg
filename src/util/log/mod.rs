@@ -6,7 +6,7 @@ pub mod flag;
 
 pub use self::flag::Flags;
 
-use ffi::*;
+use crate::ffi::*;
 use std::convert::TryInto;
 
 #[cfg(all(target_arch = "x86_64", any(target_family = "windows", target_family = "unix")))]

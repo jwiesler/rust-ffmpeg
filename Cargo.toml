@@ -1,7 +1,8 @@
 [package]
 name    = "ffmpeg-next"
-version = "8.1.0"
+version = "9.0.0"
 build   = "build.rs"
+edition = "2024"
 
 authors = ["meh. <meh@schizofreni.co>", "Zhiming Wang <i@zhimingwang.org>"]
 license = "WTFPL"
@@ -109,7 +110,7 @@ rpi = []
 
 [dependencies]
 libc     = "0.2"
-bitflags = "2.1"
+bitflags = "2.13"
 
 log      = "0.4"
 vsprintf = "2.0"
@@ -119,5 +120,6 @@ version  = "0.25"
 optional = true
 
 [dependencies.ffmpeg-sys-next]
-version = "8.1.0"
+version = "9.0.0"
+git = "https://github.com/zmwangx/rust-ffmpeg-sys" # Temporary until release
 default-features = false
