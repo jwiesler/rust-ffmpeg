@@ -11,20 +11,17 @@ jobs:
     container: jrottenberg/ffmpeg:${{ matrix.ffmpeg_version }}-ubuntu
     strategy:
       matrix:
-        ffmpeg_version: ["3.4", "4.0", "4.1", "4.2", "4.3", "4.4", "5.0", "5.1", "6.0"]
+        ffmpeg_version: ["3.4", "4.0", "4.1", "4.2", "4.3", "4.4", "5.0", "5.1",
+                         "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", "9.0"]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
       - name: Install dependencies
         run: |
           apt update
           apt install -y --no-install-recommends clang curl pkg-config ca-certificates
-      - name: Set up Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-          components: rustfmt, clippy
+          curl -fsSL https://sh.rustup.rs | sh -s -- -y --profile minimal --component rustfmt,clippy
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
       - name: Build
         run: |
           cargo build --examples
@@ -42,16 +39,10 @@ jobs:
     name: macOS - FFmpeg latest - build, test and lint
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
       - name: Install dependencies
         run: |
           brew install ffmpeg pkg-config
-      - name: Set up Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-          components: rustfmt, clippy
       - name: Build
         run: |
           cargo build --examples
@@ -77,7 +68,7 @@ jobs:
     env:
       FFMPEG_DOWNLOAD_URL: ${{ matrix.ffmpeg_download_url }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
       - name: Install dependencies
         run: |
           $VCINSTALLDIR = $(& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath)
@@ -88,49 +79,6 @@ jobs:
           mv ffmpeg-*/* ffmpeg/
           Add-Content $env:GITHUB_ENV "FFMPEG_DIR=${pwd}\ffmpeg`n"
           Add-Content $env:GITHUB_PATH "${pwd}\ffmpeg\bin`n"
-      - name: Set up Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-          components: rustfmt, clippy
-      - name: Build
-        run: |
-          cargo build --examples
-      - name: Test
-        run: |
-          cargo test --examples
-      - name: Lint
-        run: |
-          cargo clippy --examples -- -D warnings
-      - name: Check format
-        run: |
-          cargo fmt -- --check
-  # Added only because there is no ffmpeg8.0 docker image here yet
-  # https://github.com/jrottenberg/ffmpeg
-  build-test-lint-8-0:
-    name: FFmpeg${{ matrix.ffmpeg_version }} - build, test and lint
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        ffmpeg_version: ["6.1", "7.0", "7.1", "8.0", "8.1", "9.0"]
-    env:
-      FFMPEG_DIR: /home/runner/work/rust-ffmpeg/rust-ffmpeg/ffmpeg-${{ matrix.ffmpeg_version }}-linux-clang-default
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y --no-install-recommends clang curl pkg-config xz-utils libxv-dev libc++-dev
-          curl -L https://sourceforge.net/projects/avbuild/files/linux/ffmpeg-${{ matrix.ffmpeg_version }}-linux-clang-default.tar.xz/download -o ffmpeg.tar.xz
-          tar -xf ffmpeg.tar.xz
-      - name: Set up Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-          components: rustfmt, clippy
       - name: Build
         run: |
           cargo build --examples
